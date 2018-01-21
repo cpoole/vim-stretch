@@ -1,7 +1,6 @@
 FROM debian:stretch
 
 ARG RELEASE_TAG=v8.0.1428
-
 RUN apt-get update && apt-get install -y \
     git \
     build-essential \
@@ -14,18 +13,16 @@ RUN apt-get update && apt-get install -y \
     ruby-dev
 
 RUN cd /usr/local/src \
-    && git clone --branch ${RELEASE_TAG} --depth 1 https://github.com/vim/vim \
-    && cd vim/src \
+    && git clone --branch ${RELEASE_TAG} --depth 1 https://github.com/vim/vim
+
+#ENV LDFLAGS="-static"
+
+RUN cd /usr/local/src/vim/src \
     && ./configure --with-features=huge \
-     --enable-rubyinterp \
-     --with-ruby-command=$(which ruby) \
      --enable-largefile \
      --disable-netbeans \
      --enable-python3interp=yes \
      --with-python3-config-dir=/usr/lib/python3.5/config \
-     --enable-perlinterp \
-     --enable-luainterp \
-     --with-luajit \
      --enable-gui=auto \
      --enable-fail-if-missing \
      --enable-cscope \
